@@ -56,7 +56,7 @@
 </nav>
 
 <main>
-<div aria-hidden="true" id="carouselExampleSlidesOnly" class="carousel slide md-5" data-bs-ride="carousel">
+<div aria-hidden="true" id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
             <div aria-hidden="true" class="carousel-inner">
               <div class="carousel-item active">
                 <img aria-hidden="true" src="public/carbonara.jpg" alt="carrousel1" class="d-block w-100">
