@@ -20,8 +20,8 @@ CREATE TABLE Restaurant (
 -- table Client
 CREATE TABLE Client (
   ClientId INT PRIMARY KEY,
-  nom VARCHAR(255) NOT NULL,
-  prénom VARCHAR(255) NOT NULL,
+  Nom VARCHAR(255) NOT NULL,
+  Prenom VARCHAR(255) NOT NULL,
 );
 
 -- table Commande
