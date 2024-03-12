@@ -44,8 +44,9 @@ CREATE TABLE Livraison (
     CommandeId INT NOT NULL,
     AdresseId INT NOT NULL,
     Effectue BOOLEAN NOT NULL,
-    Probleme TEXT,
+    ProblemeId INT,
     FOREIGN KEY (AdresseId) REFERENCES Adresse(AdresseId),
+    FOREIGN KEY (ProblemeId) REFERENCES Probleme(ProblemeId)
 );
 
 -- table Plat
