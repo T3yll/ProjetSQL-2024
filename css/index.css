@@ -1,0 +1,12 @@
+.carousel .carousel-item {
+    height: 600px;
+  }
+  .carousel-inner{overflow:visible} 
+
+main{
+    max-height: 100vh;
+}
+.carousel {
+    width:640px;
+    height:360px;
+  }
