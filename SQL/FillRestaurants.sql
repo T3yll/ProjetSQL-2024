@@ -1,0 +1,10 @@
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Le Petit Bistro', 'Paris', 1);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('La Brasserie', 'Marseille', 2);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Chez Jean', 'Lyon', 3);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Le Jardin Gourmand', 'Bordeaux', 4);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('La Table Provençale', 'Nice', 5);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Le Bistrot du Coin', 'Toulouse', 6);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('La Crêperie Bretonne', 'Rennes', 7);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Le Restaurant Gastronomique', 'Strasbourg', 8);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('La Pizzeria', 'Lille', 9);
+INSERT INTO restaurants (Nom, Ville, AdresseId) VALUES ('Le Café Parisien', 'Nantes', 10);
