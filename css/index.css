@@ -1,12 +1,33 @@
+
+html{
+  scrollbar-color: #3b3a3838 #a09f9e !important;
+}
+
+
+
+body {
+  background: #3b3a3838 !important;
+}
+
+
 .carousel .carousel-item {
-    height: 600px;
+    height: 90vh;
+    width: 80%;
+    filter: blur(8px);
+  -webkit-filter: blur(8px);
   }
-  .carousel-inner{overflow:visible} 
+  .carousel-inner{
+    overflow:hidden;
+    left : 10%;
+
+  } 
 
 main{
     max-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
-.carousel {
-    width:640px;
-    height:360px;
-  }
+
+.carousel{
+  align-content: center;
+}
