@@ -1,6 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="fr">
-
+<?php
+require_once("class/Db.php");
+$DB=new Db();
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
