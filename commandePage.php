@@ -71,16 +71,17 @@
                 <option>Francky Saint-Hono-Raie</option>
             </select>
         </div>
+        <div class="mb-3">
+          <label for="numero_rue" class="form-label">Commentaire :</label>
+          <input type="text" class="form-control" id="numero_rue" name="commentaire">
+      </div>
       </div>
       <button type="submit" class="btn btn-primary">Valider</button>
       </form>
       <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
-      <!-- 
-      <form id="commandeForm" action="/api/Client.php?action=add" method="post">
-      <div class="mb-3">
-          <label for="numero_rue" class="form-label">Numéro de rue :</label>
-          <input type="text" class="form-control" id="numero_rue" name="numero_rue">
-      </div>
+
+      
+      <!--
       <div class="mb-3">
           <label for="ville" class="form-label">Ville :</label>
           <input type="text" class="form-control" id="ville" name="Ville">

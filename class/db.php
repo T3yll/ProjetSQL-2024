@@ -13,7 +13,7 @@ class Db
     {
         $this->connection = new PDO('mysql:host=localhost;dbname=sqlProj;charset=utf8', $this->user, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->initDb();
+        //$this->initDb();
     }
 
     private function initDb()
@@ -194,15 +194,16 @@ class Db
 
     public function AddOrReturnAdresse($Adresse)
     {
-        $query = "SELECT * FROM Adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
+        $query = "SELECT * FROM adresse WHERE adresse.Numero = :Numero AND adresse.Rue = :Rue AND adresse.Ville = :Ville AND adresse.CodePostal = :CodePostal AND adresse.Pays = :Pays";
         $stmt = $this->connection->prepare($query);
         $stmt->execute($Adresse);
         $result = $stmt->fetch();
+        echo $result;
         if ($result == false) {
-            $query = "INSERT INTO Adresse (Numero, Rue, Ville, CodePostal, Pays) VALUES (:Numero, :Rue, :Ville, :CodePostal, :Pays)";
+            $query = "INSERT INTO adresse (Numero, Rue, Ville, CodePostal, Pays) VALUES (:Numero, :Rue, :Ville, :CodePostal, :Pays)";
             $stmt = $this->connection->prepare($query);
             $stmt->execute($Adresse);
-            $query = "SELECT * FROM Adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
+            $query = "SELECT * FROM adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
             $stmt = $this->connection->prepare($query);
             $stmt->execute($Adresse);
             $result = $stmt->fetch();
@@ -228,8 +229,60 @@ class Db
         return $result;
     }
 
+    public function AddOrReturnLivraison($Adresse)
+    {
+        $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute($Adresse);
+        $result = $stmt->fetch();
+        if ($result == false) {
+            $query = "INSERT INTO Livraison (AdresseId, Effectue) VALUES (:AdresseId, 0)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Adresse);
+            $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Adresse);
+            $result = $stmt->fetch();
+        }
+        return $result;
+    }
 
 
+    public function GetInfoFromPlatName($Nom){
+        $query = "SELECT * FROM Plat WHERE Nom = :Nom";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["Nom" => $Nom]);
+        return $stmt->fetch();
+    }
+
+    public function AddPlatsCommande($plats,$CommandeId){
+        $prix=0;
+        foreach ($plats as $plat) {
+            $platInfo = $this->GetInfoFromPlatName($plat);
+            $prix+=$platInfo["Prix"];
+            $query = "INSERT INTO LienCommandePlat (CommandeId, PlatId, Quantite) VALUES (:CommandeId, :PlatId, :Quantite)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["CommandeId" => $CommandeId, "PlatId" => $platInfo["Id"], "Quantite" => 1]);
+        }       
+
+        return $prix;
+    }
+
+    
+
+    public function AddCommande($plats,$commentaire,$Adresse=["10","test","testville",00000,"france"],$client=["nathan","bertaud"]){
+        $Adresse = $this->AddOrReturnAdresse($Adresse);
+        $Client = $this->AddOrReturnClient($client);
+        $Livraison = $this->AddOrReturnLivraison($Adresse);
+        $query = "INSERT INTO Commande (ClientId, RestaurantId, Date, Prix, LivraisonId, Commentaire) VALUES (:ClientId, :RestaurantId, :Date, :Prix, :LivraisonId, :Commentaire)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["ClientId" => $Client["ClientId"], "RestaurantId" => $_POST["restaurant"], "Date" => date("Y-m-d H:i:s"), "Prix" => 0, "LivraisonId" => $Livraison["LivraisonId"], "Commentaire" => $commentaire]);
+        $prix=$this->AddPlatsCommande($plats,$this->connection->lastInsertId());
+        $query = "UPDATE Commande SET Prix = :Prix WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["Prix" => $prix, "CommandeId" => $this->connection->lastInsertId()]);
+
+    }
 
 
     

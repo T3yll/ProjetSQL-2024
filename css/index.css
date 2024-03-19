@@ -10,11 +10,16 @@ body {
 }
 
 
-.carousel .carousel-item {
-    height: 90vh;
-    width: 80%;
+.carousel .carousel-img {
+    
     filter: blur(8px);
   -webkit-filter: blur(8px);
+  }
+
+
+  .carousel .carousel-inner{
+    height: 90vh;
+    width: 80%;
   }
   .carousel-inner{
     overflow:hidden;
@@ -32,3 +37,4 @@ main{
 .carousel{
   align-content: center;
 }
+
