@@ -4,18 +4,20 @@ require_once("../class/db.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         
-        $newNom = $_POST['restaurant'];
-        $newPrenom = $_POST['restaurant'];
+       // $newNom = $_POST['restaurant'];
+        //$newPrenom = $_POST['restaurant'];
 
-        $AdresseNum = $_POST['Numero'];
-        $AdresseRue = $_POST['Rue'];
+        $AdresseNum = $_POST['numero_rue'];
+        //$AdresseRue = $_POST['Rue'];
         $AdresseVille = $_POST['Ville'];
-        $AdresseCP = $_POST['code postale'];
+        $AdresseCP = $_POST['codepostal'];
         $AdressePays = $_POST['Pays'];
 
 
-        echo $newRestaurant;
-        echo $newPlat;
+        echo $AdresseNum;
+        echo $AdresseVille;
+        echo $AdresseCP;
+        echo $AdressePays;
 
 
 
