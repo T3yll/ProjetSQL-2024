@@ -26,55 +26,14 @@ $plats = $db->getPlats();
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <p class="navbar-brand h1">Restôt</p>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <p class="offcanvas-title h1" id="offcanvasDarkNavbarLabel">Restôt</p>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Commande">Commandes</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link active" href="plats" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Plats
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link active" href="restaurants" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Nos magasins
-                            </a>
-                        </li>
-                    </ul>
-                    <form class="d-flex mt-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <main class="p-5">
-        <div class="row row-cols-3 g-3">
-            
-                <?php foreach ($plats as $plat): ?>
-<div class="col">
-                    <div class="card">
+<?php echo file_get_contents("components/Nav.html"); ?>
+    <main class="p-5 container-fluid content-row">
+        <div class="row">
+            <?php foreach ($plats as $plat): ?>
+                <div class="col-lg-4 my-2">
+                    <div class="card h-100 flex-fill">
                         <img src="public/<?php echo strtolower($plat["Nom"] . ".jpg") ?>" class="card-img-top plat-img"
-                            alt="Hollywood Sign on The Hill" />
+                            alt="Image de <?php echo strtolower($plat["Nom"]) ?>" />
                         <div class="card-body">
                             <h5 class="card-title">
                                 <?php echo $plat["Nom"] ?>
@@ -85,9 +44,8 @@ $plats = $db->getPlats();
                             </p>
                         </div>
                     </div>
-</div>
-                <?php endforeach; ?>
-            
+                </div>
+            <?php endforeach; ?>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
