@@ -15,7 +15,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <style>
         body {
-            background-image: url('public/commandePageBurger.webp'); /* Chemin vers votre image */
+            background-image: url('public/commandePageBurger.png'); /* Chemin vers votre image */
             background-size: cover; /* Ajuste la taille de l'image pour remplir l'arrière-plan */
             background-position: center; /* Centre l'image dans l'arrière-plan */
             background-repeat: no-repeat; /* Empêche la répétition de l'image */
@@ -82,36 +82,53 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="mb-5">
-          <form id="commandeForm" action="/api/Commande.php?action=add" method="post">
-            <div class="mb-3">
-              <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
-              <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
-                <option selected disabled>Choisir un restaurant</option>
-                <option value="Resto1">Resto1</option>
-                <option value="Resto2">Resto2</option>
-                <option value="Resto3">Resto3</option>
-              </select>
-            </div>
-            <div id="plats">
-              <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
-              <div class="mb-3 plat mt-3">
-                <select class="form-select" id="plat" name="plat" aria-label="Choisir un plat">
-                  <option selected disabled>Choisir un plat</option>
-                  <option>Francky Burger Bien Gaulé</option>
-                  <option>Francky Carbo Bien Mouillé</option>
-                  <option>Francky Steak Trique</option>
-                  <option>Francky Lasagne à 4 pattes</option>
-                  <option>Francky Pizza Dans Ton Ananas</option>
-                  <option>Francky Merveilleux Tout Chaud</option>
-                  <option>Francky Je Sens Tes Profiteroles</option>
-                  <option>Francky Donne Moi Ton Ravioli</option>
-                  <option>Francky Saint-Hono-Raie</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Valider</button>
-          </form>
-          <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
+        <form id="commandeForm" action="/api/Commande.php?action=add" method="post">
+    <div class="mb-3">
+        <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
+        <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
+            <option selected disabled>Choisir un restaurant</option>
+            <option value="Resto1">Resto1</option>
+            <option value="Resto2">Resto2</option>
+            <option value="Resto3">Resto3</option>
+        </select>
+    </div>
+    <div id="plats">
+        <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
+        <div class="mb-3 plat mt-3">
+            <select class="form-select" id="plat" name="plat" aria-label="Choisir un plat">
+                <option selected disabled>Choisir un plat</option>
+                <option>Francky Burger Bien Gaulé</option>
+                <option>Francky Carbo Bien Mouillé</option>
+                <option>Francky Steak Trique</option>
+                <option>Francky Lasagne à 4 pattes</option>
+                <option>Francky Pizza Dans Ton Ananas</option>
+                <option>Francky Merveilleux Tout Chaud</option>
+                <option>Francky Je Sens Tes Profiteroles</option>
+                <option>Francky Donne Moi Ton Ravioli</option>
+                <option>Francky Saint-Hono-Raie</option>
+            </select>
+        </div>
+      </div>
+      <div class="mb-3">
+          <label for="numero_rue" class="form-label">Numéro de rue :</label>
+          <input type="text" class="form-control" id="numero_rue" name="numero_rue">
+      </div>
+      <div class="mb-3">
+          <label for="ville" class="form-label">Ville :</label>
+          <input type="text" class="form-control" id="ville" name="ville">
+      </div>
+      <div class="mb-3">
+          <label for="codePostal" class="form-label">Code Postal :</label>
+          <input type="text" class="form-control" id="codePostal" name="codePostal">
+      </div>
+      <div class="mb-3">
+          <label for="pays" class="form-label">Pays :</label>
+          <input type="text" class="form-control" id="pays" name="pays">
+      </div>
+      <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+  <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
+
         </div>
       </div>
     </div>
@@ -122,10 +139,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
  
 <script>
+  var platCount = 1;
   document.getElementById('ajouterPlat').addEventListener('click', function() {
     var clone = document.querySelector('.plat').cloneNode(true);
+    clone.querySelector('select').setAttribute('name', 'plat' + platCount);
     document.getElementById('plats').appendChild(document.createElement('div')).classList.add('mb-3', 'plat');
     document.querySelector('.plat:last-child').appendChild(clone);
+    platCount++;
   });
 </script>
 </body>
