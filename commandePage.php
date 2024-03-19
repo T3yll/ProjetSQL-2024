@@ -95,7 +95,7 @@
     <div id="plats">
         <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
         <div class="mb-3 plat mt-3">
-            <select class="form-select" id="plat" name="plat" aria-label="Choisir un plat">
+            <select class="form-select" id="plat" name="plat1" aria-label="Choisir un plat">
                 <option selected disabled>Choisir un plat</option>
                 <option>Francky Burger Bien Gaulé</option>
                 <option>Francky Carbo Bien Mouillé</option>
@@ -109,25 +109,31 @@
             </select>
         </div>
       </div>
+      <button type="submit" class="btn btn-primary">Valider</button>
+      </form>
+      <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
+      <!-- 
+      <form id="commandeForm" action="/api/Client.php?action=add" method="post">
       <div class="mb-3">
           <label for="numero_rue" class="form-label">Numéro de rue :</label>
           <input type="text" class="form-control" id="numero_rue" name="numero_rue">
       </div>
       <div class="mb-3">
           <label for="ville" class="form-label">Ville :</label>
-          <input type="text" class="form-control" id="ville" name="ville">
+          <input type="text" class="form-control" id="ville" name="Ville">
       </div>
       <div class="mb-3">
           <label for="codePostal" class="form-label">Code Postal :</label>
-          <input type="text" class="form-control" id="codePostal" name="codePostal">
+          <input type="text" class="form-control" id="codePostal" name="codepostal">
       </div>
       <div class="mb-3">
           <label for="pays" class="form-label">Pays :</label>
-          <input type="text" class="form-control" id="pays" name="pays">
+          <input type="text" class="form-control" id="pays" name="Pays">
       </div>
       <button type="submit" class="btn btn-primary">Valider</button>
-  </form>
-  <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
+      </form>
+      -->
+  
 
         </div>
       </div>
@@ -139,7 +145,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
  
 <script>
-  var platCount = 1;
+  var platCount = 2;
   document.getElementById('ajouterPlat').addEventListener('click', function() {
     var clone = document.querySelector('.plat').cloneNode(true);
     clone.querySelector('select').setAttribute('name', 'plat' + platCount);
