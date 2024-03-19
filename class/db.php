@@ -13,14 +13,14 @@ class Db
     {
         $this->connection = new PDO('mysql:host=localhost;dbname=sqlProj;charset=utf8', $this->user, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //$this->initDb();
+        $this->initDb();
     }
 
     private function initDb()
     {
 
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Adresse (
-            AdresseId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Adresse (
+            AdresseId INT PRIMARY KEY,
             Numero INT NOT NULL,
             Rue VARCHAR(255) NOT NULL,
             Ville VARCHAR(255) NOT NULL,
@@ -31,8 +31,8 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Restaurant (
-            RestaurantId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Restaurant (
+            RestaurantId INT PRIMARY KEY,
             Nom VARCHAR(255) NOT NULL,
             Ville VARCHAR(255) NOT NULL,
             AdresseId INT NOT NULL,
@@ -44,8 +44,8 @@ class Db
         } 
 
          
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Client (
-            ClientId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Client (
+            ClientId INT PRIMARY KEY,
             Nom VARCHAR(255) NOT NULL,
             Prenom VARCHAR(255) NOT NULL
           )";
@@ -53,16 +53,16 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Probleme (
-            ProblemeId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Probleme (
+            ProblemeId INT PRIMARY KEY,
             Message TEXT
         )";
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Livraison (
-            LivraisonId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Livraison (
+            LivraisonId INT PRIMARY KEY,
             CommandeId INT NOT NULL,
             AdresseId INT NOT NULL,
             Effectue BOOLEAN NOT NULL,
@@ -74,8 +74,8 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Commande (
-            CommandeId INT PRIMARY KEY AUTO_INCREMENT ,
+        $tableQuery = "CREATE TABLE Commande (
+            CommandeId INT PRIMARY KEY,
             ClientId INT NOT NULL,
             RestaurantId INT NOT NULL,
             Date DATETIME NOT NULL,
@@ -90,8 +90,8 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
         
-        $tableQuery = "CREATE TABLE IF NOT EXISTS Plat (
-            PlatId INT PRIMARY KEY AUTO_INCREMENT,
+        $tableQuery = "CREATE TABLE Plat (
+            PlatId INT PRIMARY KEY,
             Nom VARCHAR(255) NOT NULL,
             Description TEXT,
             Prix DECIMAL(10,2) NOT NULL
@@ -99,7 +99,7 @@ class Db
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        $tableQuery = "CREATE TABLE IF NOT EXISTS LienCommandePlat (
+        $tableQuery = "CREATE TABLE LienCommandePlat (
             CommandeId INT NOT NULL,
             PlatId INT NOT NULL,
             Quantite INT NOT NULL,
