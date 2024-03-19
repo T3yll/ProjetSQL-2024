@@ -186,11 +186,49 @@ class Db
 
     public function getRestaurants()
     {
-        $query = "SELECT * FROM Restaurant";
+        $query = "SELECT restaurant.*, adresse.* FROM restaurant JOIN adresse ON restaurant.AdresseId = adresse.AdresseId GROUP BY restaurant.RestaurantId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function AddOrReturnAdresse($Adresse)
+    {
+        $query = "SELECT * FROM Adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute($Adresse);
+        $result = $stmt->fetch();
+        if ($result == false) {
+            $query = "INSERT INTO Adresse (Numero, Rue, Ville, CodePostal, Pays) VALUES (:Numero, :Rue, :Ville, :CodePostal, :Pays)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Adresse);
+            $query = "SELECT * FROM Adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Adresse);
+            $result = $stmt->fetch();
+        }
+        return $result;
+    }
+
+    public function AddOrReturnClient($Client)
+    {
+        $query = "SELECT * FROM Client WHERE Nom = :Nom AND Prenom = :Prenom";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute($Client);
+        $result = $stmt->fetch();
+        if ($result == false) {
+            $query = "INSERT INTO Client (Nom, Prenom) VALUES (:Nom, :Prenom)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Client);
+            $query = "SELECT * FROM Client WHERE Nom = :Nom AND Prenom = :Prenom";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($Client);
+            $result = $stmt->fetch();
+        }
+        return $result;
+    }
+
+
 
 
 

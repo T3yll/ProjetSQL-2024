@@ -32,44 +32,7 @@
 
 <html>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container-fluid">
-    <div class="d-flex align-items-center">
-      <img src="public/restologo.png" alt="Logo" class="navbar-brand-logo me-2">
-      <a class="navbar-brand" href="#">Restôt</a>
-    </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Restôt</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Commandes</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Plats
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Nos magasins
-            </a>
-          </li>
-        </ul>
-        <form class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</nav>
+<?php echo file_get_contents("components/Nav.html"); ?>
 
 
 <main>

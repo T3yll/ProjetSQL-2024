@@ -3,6 +3,6 @@
 }
 
 .plat-img{
-    max-width: fit-content !important;
-    max-height: fit-content !important;
+    width: 100%;
+    height: 100%;
 }
