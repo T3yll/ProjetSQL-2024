@@ -82,30 +82,30 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="mb-5">
-          <form id="commandeForm">
+          <form id="commandeForm" action="/api/Commande.php?action=add" method="post">
             <div class="mb-3">
               <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
-              <select class="form-select" id="restaurant" aria-label="Choisir un restaurant">
+              <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
                 <option selected disabled>Choisir un restaurant</option>
-                <option value="burger">Resto1</option>
-                <option value="carbonara">Resto2</option>
-                <option value="lasagne">Resto3</option>
+                <option value="Resto1">Resto1</option>
+                <option value="Resto2">Resto2</option>
+                <option value="Resto3">Resto3</option>
               </select>
             </div>
             <div id="plats">
               <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
               <div class="mb-3 plat mt-3">
-                <select class="form-select" id="plat" aria-label="Choisir un plat">
+                <select class="form-select" id="plat" name="plat" aria-label="Choisir un plat">
                   <option selected disabled>Choisir un plat</option>
-                  <option value="burger">Francky Burger Bien Gaulé</option>
-                  <option value="carbonara">Francky Carbo Bien Mouillé</option>
-                  <option value="steak-frites">Francky Steak Trique</option>
-                  <option value="lasagne">Francky Lasagne à 4 pattes</option>
-                  <option value="pizza">Francky Pizza Dans Ton Ananas</option>
-                  <option value="merveilleux">Francky Merveilleux Tout Chaud</option>
-                  <option value="profiterole">Francky Je Sens Tes Profiteroles</option>
-                  <option value="ravioli">Francky Donne Moi Ton Ravioli</option>
-                  <option value="saint-honore">Francky Saint-Hono-Raie</option>
+                  <option>Francky Burger Bien Gaulé</option>
+                  <option>Francky Carbo Bien Mouillé</option>
+                  <option>Francky Steak Trique</option>
+                  <option>Francky Lasagne à 4 pattes</option>
+                  <option>Francky Pizza Dans Ton Ananas</option>
+                  <option>Francky Merveilleux Tout Chaud</option>
+                  <option>Francky Je Sens Tes Profiteroles</option>
+                  <option>Francky Donne Moi Ton Ravioli</option>
+                  <option>Francky Saint-Hono-Raie</option>
                 </select>
               </div>
             </div>
