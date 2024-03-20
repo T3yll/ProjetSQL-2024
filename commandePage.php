@@ -1,3 +1,10 @@
+<?php 
+require_once("class/db.php");
+$db = new DB();
+$restaurants = $db->GetRestaurants();
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -50,9 +57,9 @@
         <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
         <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
             <option selected disabled>Choisir un restaurant</option>
-            <option value="Resto1">Resto1</option>
-            <option value="Resto2">Resto2</option>
-            <option value="Resto3">Resto3</option>
+            <?php foreach ($restaurants as $restaurant) { ?>
+                <option value="<?php echo $restaurant["Nom"]; ?>"><?php echo $restaurant["Nom"]; ?></option>
+            <?php } ?>
         </select>
     </div>
     <div id="plats">

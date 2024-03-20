@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo $newRestaurant;
         echo $newPlat;
         $db = new DB();
-        $db->AddCommande($existingPlats,$_POST['commentaire'],$_POST['adresse'],$_POST['client']);
+        $db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$_POST['adresse'],$_POST['client']);
 
 
 

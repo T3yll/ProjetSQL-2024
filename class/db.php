@@ -14,13 +14,15 @@ class Db
         $this->connection = new PDO('mysql:host=localhost;dbname=sqlProj;charset=utf8', $this->user, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$this->initDb();
+        //$this->fillTables();
     }
 
+    
     private function initDb()
     {
 
-        $tableQuery = "CREATE TABLE Adresse (
-            AdresseId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS Adresse (
+            AdresseId INT PRIMARY KEY AUTO_INCREMENT,
             Numero INT NOT NULL,
             Rue VARCHAR(255) NOT NULL,
             Ville VARCHAR(255) NOT NULL,
@@ -31,8 +33,8 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE Restaurant (
-            RestaurantId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Restaurant (
+            RestaurantId INT PRIMARY KEY AUTO_INCREMENT,
             Nom VARCHAR(255) NOT NULL,
             Ville VARCHAR(255) NOT NULL,
             AdresseId INT NOT NULL,
@@ -44,8 +46,8 @@ class Db
         } 
 
          
-        $tableQuery = "CREATE TABLE Client (
-            ClientId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Client (
+            ClientId INT PRIMARY KEY AUTO_INCREMENT,
             Nom VARCHAR(255) NOT NULL,
             Prenom VARCHAR(255) NOT NULL
           )";
@@ -53,16 +55,16 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE Probleme (
-            ProblemeId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Probleme (
+            ProblemeId INT PRIMARY KEY AUTO_INCREMENT,
             Message TEXT
         )";
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE Livraison (
-            LivraisonId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Livraison (
+            LivraisonId INT PRIMARY KEY AUTO_INCREMENT,
             CommandeId INT NOT NULL,
             AdresseId INT NOT NULL,
             Effectue BOOLEAN NOT NULL,
@@ -74,24 +76,22 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $tableQuery = "CREATE TABLE Commande (
-            CommandeId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Commande (
+            CommandeId INT PRIMARY KEY AUTO_INCREMENT,
             ClientId INT NOT NULL,
             RestaurantId INT NOT NULL,
             Date DATETIME NOT NULL,
             Prix INT NOT NULL,
-            LivraisonId INT NOT NULL,
             Commentaire TEXT,
             FOREIGN KEY (clientId) REFERENCES Client(ClientId),
-            FOREIGN KEY (LivraisonId) REFERENCES Livraison(LivraisonId),
             FOREIGN KEY (RestaurantId) REFERENCES Restaurant(RestaurantId)
         )";
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
         
-        $tableQuery = "CREATE TABLE Plat (
-            PlatId INT PRIMARY KEY,
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  Plat (
+            PlatId INT PRIMARY KEY AUTO_INCREMENT,
             Nom VARCHAR(255) NOT NULL,
             Description TEXT,
             Prix DECIMAL(10,2) NOT NULL
@@ -99,7 +99,7 @@ class Db
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        $tableQuery = "CREATE TABLE LienCommandePlat (
+        $tableQuery = "CREATE TABLE IF NOT EXISTS  LienCommandePlat (
             CommandeId INT NOT NULL,
             PlatId INT NOT NULL,
             Quantite INT NOT NULL,
@@ -110,6 +110,7 @@ class Db
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
+        
 
         $fillQuery="INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (10,'Rue du carré','Paris','95000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (11,'Rue du triangle','Marseille','13000', 'France');
@@ -124,7 +125,10 @@ class Db
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        
+
+    }
+
+    public function fillTables(){
         $fillQuery="INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Le Petit Bistro', 'Paris', 1);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('La Brasserie', 'Marseille', 2);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Chez Jean', 'Lyon', 3);
@@ -138,41 +142,46 @@ class Db
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        
+
         $fillQuery="-- Création du plat Carbonara
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Carbonara', 'Pâtes, lardons, œufs, parmesan', 12.99);
+        VALUES ('Francky Carbo Bien Mouillé', 'Pâtes, lardons, œufs, parmesan', 12.99);
+
+        -- Création du plat Steak Frites
+        INSERT INTO plat (Nom, Description, Prix)
+        VALUES ('Francky Steak Trique', 'Steak, Pomme de terres, Salade, Sauce Blanche', 10.99);
         
         -- Création du plat Pizza
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Pizza', 'Pâte à pizza, sauce tomate, fromage, garniture au choix', 10.99);
+        VALUES ('Francky Pizza Dans Ton Ananas', 'Pâte à pizza, sauce tomate, fromage, garniture au choix', 10.99);
         
         -- Création du plat Ravioli
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Ravioli', 'Pâte à ravioli, farce au choix', 8.99);
+        VALUES ('Francky Donne Moi Ton Ravioli', 'Pâte à ravioli, farce au choix', 8.99);
         
         -- Création du plat Lasagne
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Lasagne', 'Pâtes, sauce bolognaise, béchamel, fromage', 14.99);
+        VALUES ('Francky Lasagne à 4 pattes', 'Pâtes, sauce bolognaise, béchamel, fromage', 14.99);
         
         -- Création du plat Burger
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Burger', 'Pain à burger, viande, fromage, légumes, sauce', 9.99);
+        VALUES ('Francky Burger Bien Gaulé', 'Pain à burger, viande, fromage, légumes, sauce', 9.99);
         
         -- Création du plat Saint Honoré
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Saint Honoré', 'Pâte feuilletée, crème pâtissière, caramel', 7.99);
+        VALUES ('Francky Saint-Hono-Raie', 'Pâte feuilletée, crème pâtissière, caramel', 7.99);
         
         -- Création du plat Merveilleux
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Merveilleux', 'Meringue, crème chantilly, chocolat', 6.99);
+        VALUES ('Francky Merveilleux Tout Chaud', 'Meringue, crème chantilly, chocolat', 6.99);
         
         -- Création du plat Profiteroles
         INSERT INTO plat (Nom, Description, Prix)
-        VALUES ('Profiteroles', 'Pâte à choux, crème pâtissière, chocolat chaud', 8.99);";
+        VALUES ('Francky Je Sens Tes Profiteroles', 'Pâte à choux, crème pâtissière, chocolat chaud', 8.99);";
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
+        
     }
 
 
@@ -194,18 +203,34 @@ class Db
 
     public function AddOrReturnAdresse($Adresse)
     {
-        $query = "SELECT * FROM adresse WHERE adresse.Numero = :Numero AND adresse.Rue = :Rue AND adresse.Ville = :Ville AND adresse.CodePostal = :CodePostal AND adresse.Pays = :Pays";
+        $query = "SELECT * FROM adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute($Adresse);
+        $stmt->bindParam(':Numero', $Adresse[0]);
+        $stmt->bindParam(':Rue', $Adresse[1]);
+        $stmt->bindParam(':Ville', $Adresse[2]);
+        $stmt->bindParam(':CodePostal', $Adresse[3]);
+        $stmt->bindParam(':Pays', $Adresse[4]);
+        $stmt->execute();
         $result = $stmt->fetch();
         echo $result;
         if ($result == false) {
             $query = "INSERT INTO adresse (Numero, Rue, Ville, CodePostal, Pays) VALUES (:Numero, :Rue, :Ville, :CodePostal, :Pays)";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Adresse);
+            $stmt->bindParam(':Numero', $Adresse[0]);
+            $stmt->bindParam(':Rue', $Adresse[1]);
+            $stmt->bindParam(':Ville', $Adresse[2]);
+            $stmt->bindParam(':CodePostal', $Adresse[3]);
+            $stmt->bindParam(':Pays', $Adresse[4]);
+            $stmt->execute();
+
             $query = "SELECT * FROM adresse WHERE Numero = :Numero AND Rue = :Rue AND Ville = :Ville AND CodePostal = :CodePostal AND Pays = :Pays";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Adresse);
+            $stmt->bindParam(':Numero', $Adresse[0]);
+            $stmt->bindParam(':Rue', $Adresse[1]);
+            $stmt->bindParam(':Ville', $Adresse[2]);
+            $stmt->bindParam(':CodePostal', $Adresse[3]);
+            $stmt->bindParam(':Pays', $Adresse[4]);
+            $stmt->execute();
             $result = $stmt->fetch();
         }
         return $result;
@@ -215,41 +240,52 @@ class Db
     {
         $query = "SELECT * FROM Client WHERE Nom = :Nom AND Prenom = :Prenom";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute($Client);
+        $stmt->bindParam(':Nom', $Client[0]);
+        $stmt->bindParam(':Prenom', $Client[1]);
+        $stmt->execute();
         $result = $stmt->fetch();
         if ($result == false) {
             $query = "INSERT INTO Client (Nom, Prenom) VALUES (:Nom, :Prenom)";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Client);
+            $stmt->bindParam(':Nom', $Client[0]);
+            $stmt->bindParam(':Prenom', $Client[1]);
+            $stmt->execute();
             $query = "SELECT * FROM Client WHERE Nom = :Nom AND Prenom = :Prenom";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Client);
+            $stmt->bindParam(':Nom', $Client[0]);
+            $stmt->bindParam(':Prenom', $Client[1]);
+            $stmt->execute();
             $result = $stmt->fetch();
         }
         return $result;
     }
 
-    public function AddOrReturnLivraison($Adresse)
+    public function AddOrReturnLivraison($Adresse,$CommandeId)
     {
-        $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute($Adresse);
-        $result = $stmt->fetch();
-        if ($result == false) {
-            $query = "INSERT INTO Livraison (AdresseId, Effectue) VALUES (:AdresseId, 0)";
+            $query = "INSERT INTO Livraison (AdresseId,CommandeId, Effectue) VALUES (:AdresseId,:CommandeId, 0)";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Adresse);
+            $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
+            $stmt->bindParam(':CommandeId', $CommandeId);
+            $stmt->execute();
             $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute($Adresse);
+            $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
+            $stmt->execute();
             $result = $stmt->fetch();
-        }
         return $result;
     }
 
 
     public function GetInfoFromPlatName($Nom){
-        $query = "SELECT * FROM Plat WHERE Nom = :Nom";
+        $query = "SELECT * FROM plat WHERE Nom = :Nom";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':Nom', $Nom);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function GetInfoFromRestaurantName($Nom){
+        $query = "SELECT * FROM Restaurant WHERE Nom = :Nom";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Nom" => $Nom]);
         return $stmt->fetch();
@@ -262,7 +298,7 @@ class Db
             $prix+=$platInfo["Prix"];
             $query = "INSERT INTO LienCommandePlat (CommandeId, PlatId, Quantite) VALUES (:CommandeId, :PlatId, :Quantite)";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute(["CommandeId" => $CommandeId, "PlatId" => $platInfo["Id"], "Quantite" => 1]);
+            $stmt->execute(["CommandeId" => $CommandeId, "PlatId" => $platInfo["PlatId"], "Quantite" => 1]);
         }       
 
         return $prix;
@@ -270,18 +306,28 @@ class Db
 
     
 
-    public function AddCommande($plats,$commentaire,$Adresse=["10","test","testville",00000,"france"],$client=["nathan","bertaud"]){
+    public function AddCommande($plats,$restaurant,$commentaire,$Adresse,$client){
+        if ($Adresse == null) {
+            $Adresse =[10,"test","testville","00000","france"];
+        }
+        if ($client == null) {
+            $client = ["nathan","bertaud"];
+        }
         $Adresse = $this->AddOrReturnAdresse($Adresse);
         $Client = $this->AddOrReturnClient($client);
-        $Livraison = $this->AddOrReturnLivraison($Adresse);
-        $query = "INSERT INTO Commande (ClientId, RestaurantId, Date, Prix, LivraisonId, Commentaire) VALUES (:ClientId, :RestaurantId, :Date, :Prix, :LivraisonId, :Commentaire)";
+        $query = "INSERT INTO Commande (ClientId, RestaurantId, Date, Prix, Commentaire) VALUES (:ClientId, :RestaurantId, :Date, 0, :Commentaire)";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["ClientId" => $Client["ClientId"], "RestaurantId" => $_POST["restaurant"], "Date" => date("Y-m-d H:i:s"), "Prix" => 0, "LivraisonId" => $Livraison["LivraisonId"], "Commentaire" => $commentaire]);
+        $stmt->bindParam(':ClientId', $Client["ClientId"]);
+        $stmt->bindParam(':RestaurantId', $this->GetInfoFromRestaurantName($restaurant)["RestaurantId"]);
+        $stmt->bindParam(':Date', date("Y-m-d H:i:s"));
+        $stmt->bindParam(':Commentaire', $commentaire);
+        $stmt->execute();
+        $commandeId=$this->connection->lastInsertId();
         $prix=$this->AddPlatsCommande($plats,$this->connection->lastInsertId());
         $query = "UPDATE Commande SET Prix = :Prix WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["Prix" => $prix, "CommandeId" => $this->connection->lastInsertId()]);
-
+        $stmt->execute(["Prix" => $prix, "CommandeId" => $commandeId]);
+        $Livraison = $this->AddOrReturnLivraison($Adresse,$commandeId);
     }
 
 
