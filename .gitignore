@@ -23,6 +23,7 @@ composer.lock
 # Ignore build artifacts
 /build/
 
+/class/Db.php
 # Ignore user-specific files
 *.iml
 *.log

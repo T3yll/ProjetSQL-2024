@@ -47,7 +47,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db = new DB();
 
         $db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$AdresseComplete,$client);
-
-
-
     }
