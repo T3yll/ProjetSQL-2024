@@ -2,7 +2,6 @@
 require_once("../class/db.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
         $newRestaurant = $_POST['restaurant'];
         $existingPlats = array_filter($_POST, function($key) {
             return strpos($key, 'plat') === 0;
@@ -29,21 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         echo $newRestaurant;
         echo $newPlat;
+        $db = new DB();
+        $db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$_POST['adresse'],$_POST['client']);
 
 
 
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
-}
-
-?>
-
-
-<script>
-  document.getElementById('ajouterPlat').addEventListener('click', function() {
-    var clone = document.querySelector('.plat').cloneNode(true);
-    document.getElementById('plats').appendChild(document.createElement('div')).classList.add('mb-3', 'plat');
-    document.querySelector('.plat:last-child').appendChild(clone);
-  });
-</script>

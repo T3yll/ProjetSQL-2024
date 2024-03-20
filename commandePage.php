@@ -1,3 +1,10 @@
+<?php 
+require_once("class/db.php");
+$db = new DB();
+$restaurants = $db->GetRestaurants();
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -50,9 +57,9 @@
         <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
         <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
             <option selected disabled>Choisir un restaurant</option>
-            <option value="Resto1">Resto1</option>
-            <option value="Resto2">Resto2</option>
-            <option value="Resto3">Resto3</option>
+            <?php foreach ($restaurants as $restaurant) { ?>
+                <option value="<?php echo $restaurant["Nom"]; ?>"><?php echo $restaurant["Nom"]; ?></option>
+            <?php } ?>
         </select>
     </div>
     <div id="plats">
@@ -70,15 +77,18 @@
                 <option>Francky Donne Moi Ton Ravioli</option>
                 <option>Francky Saint-Hono-Raie</option>
             </select>
-        </div>
+        </div> 
       </div>
+      <div class="mb-3">
+          <label for="numero_rue" class="form-label">Commentaire :</label>
+          <input type="text" class="form-control" id="numero_rue" name="commentaire">
+      </div>
+      <button type="submit" class="btn btn-primary">Valider</button>
       </form>
       <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
-      <form id="commandeForm" action="/api/Client.php?action=add" method="post">
-      <div class="mb-3">
-          <label for="numero_rue" class="form-label">Numéro de rue :</label>
-          <input type="text" class="form-control" id="numero_rue" name="numero_rue">
-      </div>
+
+      
+      <!--
       <div class="mb-3">
           <label for="ville" class="form-label">Ville :</label>
           <input type="text" class="form-control" id="ville" name="Ville">
