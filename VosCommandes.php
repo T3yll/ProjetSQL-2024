@@ -26,19 +26,20 @@ $commandes=$_SESSION["Commandes"];
 </head>
 
 <body>
-<?php echo file_get_contents("components/Nav.html"); ?>
+<?php echo file_get_contents("components/Nav.html"); 
+print_r($_SESSION);?>
     <main class="p-5 container-fluid content-row">
         <div class="row">
             <?php foreach ($commandes as $commande): ?>
                 <div class="col-lg-4 my-2">
                     <div class="card h-100 flex-fill">
-                        <?php echo $Commande["Prix"] ?>
+                        <h5><?php echo $commande["Prix"] ?> €</h5>
                         <form action="api/deleteCommande" method="post">
-                            <input type="hidden" name="id" value="<?php echo $commande["id"] ?>">
+                            <input type="hidden" name="id" value="<?php echo $commande["CommandeId"] ?>">
                             <button type="submit" class="btn btn-danger">Supprimer</button>
                         </form>
                         <form action="api/updateCommande" method="post">
-                            <input type="hidden" name="id" value="<?php echo $commande["id"] ?>">
+                            <input type="hidden" name="id" value="<?php echo $commande["CommandeId"] ?>">
                             <button type="submit" class="btn btn-primary">Modifier</button>
                         </form>
                     </div>

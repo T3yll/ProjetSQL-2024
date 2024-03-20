@@ -328,11 +328,32 @@ class Db
         $query = "UPDATE Commande SET Prix = :Prix WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Prix" => $prix, "CommandeId" => $commandeId]);
-        $Livraison = $this->AddOrReturnLivraison($Adresse,$commandeId);
+        $query = "SELECT * FROM Commande WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $commandeId]);
+        $toreturn=$stmt->fetch();
+        $this->AddOrReturnLivraison($Adresse,$commandeId);
+
+        return $toreturn;
     }
 
+    public function DeleteCommande($id){
+        $query = "DELETE FROM Commande WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $id]);
+        $query = "DELETE FROM LienCommandePlat WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $id]);
+        $query = "DELETE FROM Livraison WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $id]);   
+    }
 
-    
+    public function UpdateCommande($id,$plats,$restaurant,$commentaire,$Adresse,$client){
+        $query = "Update Commande SET RestaurantId = :RestaurantId, Commentaire = :Commentaire WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["RestaurantId" => $this->GetInfoFromRestaurantName($restaurant)["RestaurantId"], "Commentaire" => $commentaire, "CommandeId" => $id]);
+    }
 }
 
 ?>

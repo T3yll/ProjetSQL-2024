@@ -29,8 +29,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo $newRestaurant;
         echo $newPlat;
         $db = new DB();
-        $db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$_POST['adresse'],$_POST['client']);
-
+        $Lastcommande=$db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$_POST['adresse'],$_POST['client']);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        session_start();
+        header("Location: ../VosCommandes.php");
+        if (!isset($_SESSION["Commandes"])) {
+            $_SESSION["Commandes"] = array();
+        }
+        array_push($_SESSION["Commandes"],$Lastcommande);
 
 
     }
