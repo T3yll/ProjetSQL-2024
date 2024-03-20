@@ -13,7 +13,7 @@ class Db
     {
         $this->connection = new PDO('mysql:host=localhost;dbname=sqlProj;charset=utf8', $this->user, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->initDb();
+        //$this->initDb();
     }
 
     private function initDb()

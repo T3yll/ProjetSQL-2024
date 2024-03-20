@@ -32,11 +32,11 @@
 
 <html>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container-fluid">
+<nav class="navbar navbar-dark bg-dark overflow-hidden">
+  <div class="container-fluid overflow-hidden">
     <div class="d-flex align-items-center">
       <img src="public/restologo.png" alt="Logo" class="navbar-brand-logo me-2">
-      <a class="navbar-brand" href="#">Restôt</a>
+      <a class="navbar-brand" href="/">Restôt</a>
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -109,10 +109,8 @@
             </select>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Valider</button>
       </form>
       <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
-      <!-- 
       <form id="commandeForm" action="/api/Client.php?action=add" method="post">
       <div class="mb-3">
           <label for="numero_rue" class="form-label">Numéro de rue :</label>
@@ -130,11 +128,16 @@
           <label for="pays" class="form-label">Pays :</label>
           <input type="text" class="form-control" id="pays" name="Pays">
       </div>
+      <div class="mb-3">
+          <label for="pays" class="form-label">Nom :</label>
+          <input type="text" class="form-control" id="pays" name="Nom">
+      </div>
+      <div class="mb-3">
+          <label for="pays" class="form-label">Prenom :</label>
+          <input type="text" class="form-control" id="pays" name="Prenom">
+      </div>
       <button type="submit" class="btn btn-primary">Valider</button>
       </form>
-      -->
-  
-
         </div>
       </div>
     </div>
