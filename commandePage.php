@@ -77,11 +77,11 @@ $restaurants = $db->GetRestaurants();
                 <option>Francky Donne Moi Ton Ravioli</option>
                 <option>Francky Saint-Hono-Raie</option>
             </select>
-        </div>
-        <div class="mb-3">
+        </div> 
+      </div>
+      <div class="mb-3">
           <label for="numero_rue" class="form-label">Commentaire :</label>
           <input type="text" class="form-control" id="numero_rue" name="commentaire">
-      </div>
       </div>
       <button type="submit" class="btn btn-primary">Valider</button>
       </form>
