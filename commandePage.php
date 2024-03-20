@@ -55,7 +55,7 @@ $restaurants = $db->GetRestaurants();
         <form id="commandeForm" action="/api/Commande.php?action=add" method="post">
     <div class="mb-3">
         <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
-        <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant">
+        <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant" required>
             <option selected disabled>Choisir un restaurant</option>
             <?php foreach ($restaurants as $restaurant) { ?>
                 <option value="<?php echo $restaurant["Nom"]; ?>"><?php echo $restaurant["Nom"]; ?></option>
@@ -65,7 +65,7 @@ $restaurants = $db->GetRestaurants();
     <div id="plats">
         <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
         <div class="mb-3 plat mt-3">
-            <select class="form-select" id="plat" name="plat1" aria-label="Choisir un plat">
+            <select class="form-select" id="plat" name="plat1" aria-label="Choisir un plat" required>
                 <option selected disabled>Choisir un plat</option>
                 <option>Francky Burger Bien Gaulé</option>
                 <option>Francky Carbo Bien Mouillé</option>
@@ -81,35 +81,41 @@ $restaurants = $db->GetRestaurants();
       </div>
       <div class="mb-3">
           <label for="numero_rue" class="form-label">Commentaire :</label>
-          <input type="text" class="form-control" id="numero_rue" name="commentaire">
+          <input type="text" class="form-control" id="numero_rue" name="commentaire"required>
       </div>
-      <button type="submit" class="btn btn-primary">Valider</button>
-      </form>
-      <button id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
+      
+      <button type="button" id="ajouterPlat" class="btn btn-success mt-3">Ajouter un plat</button>
 
       
-      <!--
-      <div class="mb-3">
-          <label for="ville" class="form-label">Ville :</label>
-          <input type="text" class="form-control" id="ville" name="Ville">
-      </div>
-      <div class="mb-3">
-          <label for="codePostal" class="form-label">Code Postal :</label>
-          <input type="text" class="form-control" id="codePostal" name="codepostal">
-      </div>
-      <div class="mb-3">
-          <label for="pays" class="form-label">Pays :</label>
-          <input type="text" class="form-control" id="pays" name="Pays">
-      </div>
-      <div class="mb-3">
-          <label for="pays" class="form-label">Nom :</label>
-          <input type="text" class="form-control" id="pays" name="Nom">
-      </div>
-      <div class="mb-3">
-          <label for="pays" class="form-label">Prenom :</label>
-          <input type="text" class="form-control" id="pays" name="Prenom">
-      </div>
-      <button type="submit" class="btn btn-primary">Valider</button>
+          <div class="mb-3">
+              <label for="numero" class="form-label">Numero :</label>
+              <input type="text" class="form-control" id="numero" name="numero" required>
+          </div>
+          <div class="mb-3">
+              <label for="rue" class="form-label">Rue:</label>
+              <input type="text" class="form-control" id="rue" name="rue" required>
+          </div>
+          <div class="mb-3">
+              <label for="ville" class="form-label">Ville :</label>
+              <input type="text" class="form-control" id="ville" name="Ville" required>
+          </div>
+          <div class="mb-3">
+              <label for="codePostal" class="form-label">Code Postal :</label>
+              <input type="text" class="form-control" id="codePostal" name="codepostal" required>
+          </div>
+          <div class="mb-3">
+              <label for="pays" class="form-label">Pays :</label>
+              <input type="text" class="form-control" id="pays" name="Pays" required>
+          </div>
+          <div class="mb-3">
+              <label for="pays" class="form-label">Nom :</label>
+              <input type="text" class="form-control" id="pays" name="Nom" required>
+          </div>
+          <div class="mb-3">
+              <label for="pays" class="form-label">Prenom :</label>
+              <input type="text" class="form-control" id="pays" name="Prenom" required>
+          </div>
+          <button type="submit" class="btn btn-primary" onClick="return empty()">Valider</button>
       </form>
         </div>
       </div>
