@@ -112,6 +112,11 @@ class Db
         }
         
 
+    }
+
+    public function fillTables(){
+        
+
         $fillQuery="INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (10,'Rue du carré','Paris','95000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (11,'Rue du triangle','Marseille','13000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (145,'Rue du rond','Lyon','69000', 'France');
@@ -125,10 +130,6 @@ class Db
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-
-    }
-
-    public function fillTables(){
         $fillQuery="INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Le Petit Bistro', 'Paris', 1);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('La Brasserie', 'Marseille', 2);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Chez Jean', 'Lyon', 3);
