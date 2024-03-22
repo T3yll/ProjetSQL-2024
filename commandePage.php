@@ -21,7 +21,7 @@ $restaurants = $db->GetRestaurants();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <style>
-        body {
+        main {
             background-image: url('public/commandePageBurger.png'); /* Chemin vers votre image */
             background-size: cover; /* Ajuste la taille de l'image pour remplir l'arrière-plan */
             background-position: center; /* Centre l'image dans l'arrière-plan */
@@ -45,7 +45,7 @@ $restaurants = $db->GetRestaurants();
 <main>
   <div class="container mt-5 text-center mb-5">
     <div class="text-center mt-5">
-      <div class="col-md-6 text-center start-50 mb-5">
+      <div class="text-center mb-5">
         <h1 class="text-black fw-bold">Chope ta Francky commande ici !</h1>
       </div>
     </div>
