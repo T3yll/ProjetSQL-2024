@@ -76,7 +76,7 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="public/burger.jpg" class="card-img-top" alt="Palm Springs Road" />
+          <img src="public/Francky Burger Bien Gaulé.jpg" class="card-img-top" alt="Palm Springs Road" />
           <div class="card-body">
             <h5 class="card-title">Nos plats</h5>
             <p class="card-text">
