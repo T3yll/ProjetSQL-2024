@@ -81,7 +81,7 @@ class Db
             ClientId INT NOT NULL,
             RestaurantId INT NOT NULL,
             Date DATETIME NOT NULL,
-            Prix INT NOT NULL,
+            Prix DECIMAL(10,2) NOT NULL,
             Commentaire TEXT,
             FOREIGN KEY (clientId) REFERENCES Client(ClientId),
             FOREIGN KEY (RestaurantId) REFERENCES Restaurant(RestaurantId)
