@@ -26,19 +26,19 @@
     <div aria-hidden="true" id="carouselExampleSlidesOnly" class="carousel slide m-2" data-bs-ride="carousel">
       <div aria-hidden="true" class="carousel-inner">
         <div class="carousel-item active">
-          <img aria-hidden="true" src="public/carbonara.png" alt="carrousel1" class="d-block w-100 carousel-img">
+          <img aria-hidden="true" src="public/ADS1.png" alt="carrousel1" class="d-block w-100 carousel-img">
           <div class="carousel-caption d-none d-md-block">
           <h1>Chaine de restaurants Restôt</h1>
           </div>
         </div>
         <div class="carousel-item">
-          <img aria-hidden="true" src="public/pizza.jpg" alt="carrousel2" class="d-block w-100 carousel-img">
+          <img aria-hidden="true" src="public/ADS2.png" alt="carrousel2" class="d-block w-100 carousel-img">
           <div class="carousel-caption d-none d-md-block">
           <h1>Chaine de restaurants Restôt</h1>
           </div>
         </div>
         <div class="carousel-item">
-          <img aria-hidden="true" src="public/lasagne.jpg" alt="carrousel3" class="d-block w-100 carousel-img">
+          <img aria-hidden="true" src="public/ADS3.jpg" alt="carrousel3" class="d-block w-100 carousel-img">
           <div class="carousel-caption d-none d-md-block">
             <h1>Chaine de restaurants Restôt</h1>
           </div>
