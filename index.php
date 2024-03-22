@@ -23,7 +23,7 @@
   <?php echo file_get_contents("components/Nav.html"); ?>
 
   <main>
-    <div aria-hidden="true" id="carouselExampleSlidesOnly" class="carousel slide m-2" data-bs-ride="carousel">
+    <div aria-hidden="true" id="carouselExampleSlidesOnly" class="carousel slide m-2" data-bs-ride="carousel" data-bs-interval="2000" data-ride="carousel">
       <div aria-hidden="true" class="carousel-inner">
         <div class="carousel-item active">
           <img aria-hidden="true" src="public/ADS1.png" alt="carrousel1" class="d-block w-100 carousel-img">
@@ -35,7 +35,7 @@
           <div class="carousel-caption d-none d-md-block">
           </div>
         </div>
-        <div class="carousel-item">
+        <div class="carousel-item"> 
           <img aria-hidden="true" src="public/ADS3.png" alt="carrousel3" class="d-block w-100 carousel-img">
           <div class="carousel-caption d-none d-md-block">
           </div>
@@ -55,7 +55,7 @@
               Commander dans le restaurant de la chaine restot le plus proche de chez vous et faites vous livrer à
               domicile !
             </p>
-            <a href="Commande" class="btn btn-primary stretched-link">Commander</a>
+            <a href="commandePage" class="btn btn-primary stretched-link">Commander</a>
           </div>
         </div>
       </div>
