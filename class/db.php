@@ -318,13 +318,16 @@ class Db
 
     public function AddPlatsCommande($plats,$CommandeId){
         $prix=0;
+        $Quantite=0;
         foreach ($plats as $plat) {
             $platInfo = $this->GetInfoFromPlatName($plat);
             $prix+=$platInfo["Prix"];
-            $query = "INSERT INTO LienCommandePlat (CommandeId, PlatId, Quantite) VALUES (:CommandeId, :PlatId, :Quantite)";
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute(["CommandeId" => $CommandeId, "PlatId" => $platInfo["PlatId"], "Quantite" => 1]);
-        }       
+            $Quantite++;
+        }
+
+        $query = "INSERT INTO LienCommandePlat (CommandeId, PlatId, Quantite) VALUES (:CommandeId, :PlatId, :Quantite)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $CommandeId, "PlatId" => $platInfo["PlatId"], "Quantite" => $Quantite]);
 
         return $prix;
     }
