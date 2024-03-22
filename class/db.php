@@ -328,7 +328,7 @@ class Db
         $query = "UPDATE Commande SET Prix = :Prix WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Prix" => $prix, "CommandeId" => $commandeId]);
-        $query = "SELECT * FROM Commande WHERE CommandeId = :CommandeId";
+        $query = "SELECT commande.* , adresse.* FROM commande JOIN livraison on commande.CommandeId = livraison.CommandeId join adresse on livraison.AdresseId = adresse.AdresseId WHERE commande.CommandeId = :CommandeId ";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["CommandeId" => $commandeId]);
         $toreturn=$stmt->fetch();
@@ -338,21 +338,31 @@ class Db
     }
 
     public function DeleteCommande($id){
-        $query = "DELETE FROM Commande WHERE CommandeId = :CommandeId";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute(["CommandeId" => $id]);
+      
         $query = "DELETE FROM LienCommandePlat WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["CommandeId" => $id]);
         $query = "DELETE FROM Livraison WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["CommandeId" => $id]);   
+        $stmt->execute(["CommandeId" => $id]);
+        $query = "DELETE FROM Commande WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $id]); 
     }
 
-    public function UpdateCommande($id,$plats,$restaurant,$commentaire,$Adresse,$client){
-        $query = "Update Commande SET RestaurantId = :RestaurantId, Commentaire = :Commentaire WHERE CommandeId = :CommandeId";
+    public function UpdateCommande($id,$commentaire,$Adresse){
+        $Adresse=$this->AddOrReturnAdresse($Adresse); 
+        $query = "Update Commande,Adresse,Livraison SET Commande.Commentaire = :Commentaire, Livraison.AdresseId = :AdresseId  WHERE CommandeId = :CommandeId
+         JOIN Livraison ON Commande.CommandeId = Livraison.CommandeId JOIN Adresse ON Livraison.AdresseId = Adresse.AdresseId";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["RestaurantId" => $this->GetInfoFromRestaurantName($restaurant)["RestaurantId"], "Commentaire" => $commentaire, "CommandeId" => $id]);
+        $stmt->execute(["Commentaire" => $commentaire,"AdresseId"=> $Adresse["AdresseId"] , "CommandeId" => $id]);
+    }
+
+    public function GetCommandes(){
+        $query = "SELECT * FROM Commande";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }
 

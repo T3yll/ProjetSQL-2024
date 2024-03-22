@@ -38,3 +38,7 @@ main{
   align-content: center;
 }
 
+
+.no-command{
+  background: inherit !important;
+}
