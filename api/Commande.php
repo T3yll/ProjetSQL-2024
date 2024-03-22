@@ -1,6 +1,8 @@
 <?php
 require_once("../class/db.php");
 
+
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newRestaurant = $_POST['restaurant'];
 
@@ -26,25 +28,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Listplat = array("Francky Burger Bien Gaulé", "Francky Carbo Bien Mouillé", "Francky Steak Trique", "Francky Lasagne à 4 pattes", "Francky Pizza Dans Ton Ananas", "Francky Merveilleux Tout Chaud", "Francky Je Sens Tes Profiteroles", "Francky Donne Moi Ton Ravioli", "Francky Saint-Hono-Raie");
 
         foreach ($existingPlats as $plat) {
-            if (in_array($plat, $Listplat)) {
-                echo $plat;
-            } else {
-                echo "Plat is not in the list";
+            if (!in_array($plat, $Listplat)) {
+                //header("Location: ../VosCommandes.php");
+                //die();
             }
         }
-        
-        foreach ($restaurants as $restaurant) {
-            $restaurants = array();
-            array_push($restaurants, $restaurant["Nom"]);
-            
-            if ($restaurant["Nom"] == $newRestaurant) {
-                $newRestaurant = $restaurant["Nom"];
-            } else {
-                echo "Restaurant is not in the list";
+    
+            $restaurants = array("Resto1", "Resto2", "Resto3");
+    
+            foreach ($restaurants as $restaurant) {
+            if (!in_array($newRestaurant, $restaurants)) {
+                //header("Location: ../VosCommandes.php");
+                //die();
             }
         }
 
         $db = new DB();
 
-        $db->AddCommande($existingPlats,$newRestaurant,$_POST['commentaire'],$AdresseComplete,$client);
+        $Lastcommande = $db->AddCommande($existingPlats, $newRestaurant, $_POST['commentaire'],$AdresseComplete,$client);
+        print_r($Lastcommande);
+        if (!isset ($_SESSION["Commandes"])) {
+            $_SESSION["Commandes"] = array();
+        }
+        $Lastcommande["Adresse"] = $AdresseComplete;
+        array_push($_SESSION["Commandes"], $Lastcommande);
+        //header("Location: ../VosCommandes.php");
+        //die();
     }
