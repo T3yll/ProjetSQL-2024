@@ -26,12 +26,8 @@ $commandes=$_SESSION["Commandes"];
 </head>
 
 <body>
-<?php echo file_get_contents("components/Nav.html");
-print_r($_SESSION)?>
-
-<?php if (count($commandes)==0):?>
-
-
+<?php echo file_get_contents("components/Nav.html");?>
+<?php if ( !isset($commandes) || count($commandes)==0):?>
     <main class="p-5">
         <div class="d-flex justify-content-center align-items-center h-100">
             <div class="card no-command">
@@ -46,20 +42,28 @@ print_r($_SESSION)?>
                 <div class="col-lg-4 my-2">
                     <div class="card h-100 flex-fill">
                         <h5><?php echo $commande["Prix"] ?> €</h5>
+                        <div class="container-fluid content-row ">
+                        <form class="flex-row" action="api/update.php" method="post">
+                            <input type="hidden" name="id" value="<?php echo $i ?>">
+                            <label for="">Commentaire</label>
+                            <input type="text" name="commentaire" value="<?php echo $commande["Commentaire"] ?>">
+                            <label for="">Numero</label>
+                            <input type="text" name="numero" value="<?php echo $commande["Adresse"][0] ?>">
+                            <label for="">Rue</label>
+                            <input type="text" name="rue" value="<?php echo $commande["Adresse"][1] ?>">
+                            <label for="">Ville</label>
+                            <input type="text" name="ville" value="<?php echo $commande["Adresse"][2] ?>">
+                            <label for="">Code Postal</label>
+                            <input type="text" name="codePostal" value="<?php echo $commande["Adresse"][3] ?>">
+                            <label for="">Pays</label>
+                            <input type="text" name="pays" value="<?php echo $commande["Adresse"][4] ?>">
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </form>
                         <form action="api/delete.php" method="post">
                             <input type="hidden" name="id" value="<?php echo $i ?>">
                             <button type="submit" class="btn btn-danger">Supprimer</button>
                         </form>
-                        <form action="api/update.php" method="post">
-                            <input type="hidden" name="id" value="<?php echo $i ?>">
-                            <input type="text" name="commentaire" value="<?php echo $commande["Commentaire"] ?>">
-                            <input type="text" name="numero" value="<?php echo $commande["Adresse"][0] ?>">
-                            <input type="text" name="rue" value="<?php echo $commande["Adresse"][1] ?>">
-                            <input type="text" name="ville" value="<?php echo $commande["Adresse"][2] ?>">
-                            <input type="text" name="codePostal" value="<?php echo $commande["Adresse"][3] ?>">
-                            <input type="text" name="pays" value="<?php echo $commande["Adresse"][4] ?>">
-                            <button type="submit" class="btn btn-primary">Modifier</button>
-                        </form>
+                    </div>
                     </div>
                 </div>
             <?php $i++; endforeach; ?>

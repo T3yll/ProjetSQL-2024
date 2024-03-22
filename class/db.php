@@ -345,10 +345,13 @@ class Db
 
     public function UpdateCommande($id,$commentaire,$Adresse){
         $Adresse=$this->AddOrReturnAdresse($Adresse); 
-        $query = "Update Commande,Adresse,Livraison SET Commande.Commentaire = :Commentaire, Livraison.AdresseId = :AdresseId  WHERE CommandeId = :CommandeId
-         JOIN Livraison ON Commande.CommandeId = Livraison.CommandeId JOIN Adresse ON Livraison.AdresseId = Adresse.AdresseId";
+        $query = "UPDATE Commande
+                  JOIN Livraison ON Commande.CommandeId = Livraison.CommandeId
+                  JOIN Adresse ON Livraison.AdresseId = Adresse.AdresseId
+                  SET Commande.Commentaire = :Commentaire, Livraison.AdresseId = :AdresseId
+                  WHERE Commande.CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["Commentaire" => $commentaire,"AdresseId"=> $Adresse["AdresseId"] , "CommandeId" => $id]);
+        return $stmt->execute(["Commentaire" => $commentaire,"AdresseId"=> $Adresse["AdresseId"] , "CommandeId" => $id]) ? "Success" : "Error";
     }
 
     public function GetCommandes(){
