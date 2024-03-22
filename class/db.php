@@ -261,6 +261,17 @@ class Db
         return $result;
     }
 
+    public function SetProbleme($CommandeId){
+        $Message="Probleme de livraison";
+        $query = "INSERT INTO Probleme (Message) VALUES (:Message)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["Message" => $Message]);
+        $ProblemeId=$this->connection->lastInsertId();
+        $query = "UPDATE Livraison SET ProblemeId = :ProblemeId WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["ProblemeId" => $ProblemeId, "CommandeId" => $CommandeId]);
+    }
+
     public function AddOrReturnLivraison($Adresse,$CommandeId)
     {
             $query = "INSERT INTO Livraison (AdresseId,CommandeId, Effectue) VALUES (:AdresseId,:CommandeId, 0)";
@@ -268,6 +279,11 @@ class Db
             $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
             $stmt->bindParam(':CommandeId', $CommandeId);
             $stmt->execute();
+
+            if ($this->createProblem()){
+                $this->SetProbleme($CommandeId);
+            }
+    
             $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
             $stmt = $this->connection->prepare($query);
             $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
@@ -276,6 +292,14 @@ class Db
         return $result;
     }
 
+    public function createProblem(){
+        $randomNumber = rand(1, 10);
+        if ($randomNumber == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function GetInfoFromPlatName($Nom){
         $query = "SELECT * FROM plat WHERE Nom = :Nom";
@@ -331,6 +355,7 @@ class Db
         $Livraison = $this->AddOrReturnLivraison($Adresse,$commandeId);
     }
 
+    
 
     
 }
