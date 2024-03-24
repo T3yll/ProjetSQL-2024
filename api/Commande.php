@@ -27,6 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $Listplat = array("Francky Burger Bien Gaulé", "Francky Carbo Bien Mouillé", "Francky Steak Trique", "Francky Lasagne à 4 pattes", "Francky Pizza Dans Ton Ananas", "Francky Merveilleux Tout Chaud", "Francky Je Sens Tes Profiteroles", "Francky Donne Moi Ton Ravioli", "Francky Saint-Hono-Raie");
 
+        foreach ($existingPlats as $plat) {
+            if (!in_array($plat, $Listplat)) {
+                //header("Location: ../VosCommandes.php");
+                //die();
+            }
+        }
+    
+            $restaurants = array("Resto1", "Resto2", "Resto3");
+    
+            foreach ($restaurants as $restaurant) {
+            if (!in_array($newRestaurant, $restaurants)) {
+                //header("Location: ../VosCommandes.php");
+                //die();
+            }
+        }
+
         $db = new DB();
 
         $Lastcommande = $db->AddCommande($existingPlats, $newRestaurant, $_POST['commentaire'],$AdresseComplete,$client);
@@ -36,6 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $Lastcommande["Adresse"] = $AdresseComplete;
         array_push($_SESSION["Commandes"], $Lastcommande);
-        header("Location: ../VosCommandes.php");
-        die();
+        //header("Location: ../VosCommandes.php");
+        //die();
     }
