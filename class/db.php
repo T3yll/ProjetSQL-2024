@@ -262,7 +262,12 @@ class Db
     }
 
     public function SetProbleme($CommandeId){
-        $Message="Probleme de livraison";
+
+        if ($this->createProblem()){
+            $Message="Probleme de livraison";
+        }else{
+            $Message="Aucun probleme de livraison";
+        }
         $query = "INSERT INTO Probleme (Message) VALUES (:Message)";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Message" => $Message]);
@@ -279,11 +284,7 @@ class Db
             $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
             $stmt->bindParam(':CommandeId', $CommandeId);
             $stmt->execute();
-
-            if ($this->createProblem()){
-                $this->SetProbleme($CommandeId);
-            }
-    
+            $this->SetProbleme($CommandeId); 
             $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
             $stmt = $this->connection->prepare($query);
             $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
