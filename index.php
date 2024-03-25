@@ -1,3 +1,8 @@
+<?php
+require_once("class/db.php");
+$db = new DB();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

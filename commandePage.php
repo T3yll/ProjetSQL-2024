@@ -52,8 +52,16 @@ $restaurants = $db->GetRestaurants();
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="mb-5">
+        <?php session_start(); if (isset($_SESSION["Probleme"])): ?>
+            <h2 class="text-danger">Une erreur est survenue lors de la livraison de votre commande :</h2>
+            <p><?php echo $_SESSION["Probleme"]; ?></p>
+            <?php unset($_SESSION["Probleme"]); endif; ?>
+        
         <form id="commandeForm" action="/api/Commande.php?action=add" method="post">
     <div class="mb-3">
+    <?php session_start(); if (isset($_SESSION["ErrorRestaurant"])): ?>
+            <h2 class="text-danger"><?php echo $_SESSION["ErrorRestaurant"]; ?></h2>
+            <?php unset($_SESSION["ErrorRestaurant"]); endif; ?>
         <label for="restaurant" class="form-label">Choisis ton francky restaurant :</label>
         <select class="form-select" id="restaurant" name="restaurant" aria-label="Choisir un restaurant" required>
             <option selected disabled>Choisir un restaurant</option>
@@ -64,6 +72,9 @@ $restaurants = $db->GetRestaurants();
     </div>
     <div id="plats">
         <label for="plat" class="form-label mt-3">Choisis tes francky plats :</label>
+        <?php session_start(); if (isset($_SESSION["ErrorPlat"])): ?>
+            <h2 class="text-danger"><?php echo $_SESSION["ErrorPlat"]; ?></h2>
+            <?php unset($_SESSION["ErrorPlat"]); endif; ?>
         <div class="mb-3 plat mt-3">
             <select class="form-select" id="plat" name="plat1" aria-label="Choisir un plat" required>
                 <option selected disabled>Choisir un plat</option>
@@ -88,6 +99,9 @@ $restaurants = $db->GetRestaurants();
 
       
           <div class="mb-3">
+          <?php session_start(); if (isset($_SESSION["ErrorNumero"])): ?>
+            <h2 class="text-danger"><?php echo $_SESSION["ErrorNumero"]; ?></h2>
+            <?php unset($_SESSION["ErrorNumero"]); endif; ?>
               <label for="numero" class="form-label">Numero :</label>
               <input type="text" class="form-control" id="numero" name="numero" required>
           </div>
@@ -100,6 +114,9 @@ $restaurants = $db->GetRestaurants();
               <input type="text" class="form-control" id="ville" name="Ville" required>
           </div>
           <div class="mb-3">
+          <?php session_start(); if (isset($_SESSION["ErrorCode"])): ?>
+            <h2 class="text-danger"><?php echo $_SESSION["ErrorCode"]; ?></h2>
+            <?php unset($_SESSION["ErrorCode"]); endif; ?>
               <label for="codePostal" class="form-label">Code Postal :</label>
               <input type="text" class="form-control" id="codePostal" name="codepostal" required>
           </div>

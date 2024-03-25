@@ -6,18 +6,20 @@ class Db
     public $password = 'root';
     public $host = 'localhost';
     public $port = 3306;
+
+    public $dbname = 'sqlProj';
     private PDO $connection;
 
 
     function __construct()
     {
-        $this->connection = new PDO('mysql:host=localhost;dbname=sqlProj;charset=utf8', $this->user, $this->password);
+        $this->connection = new PDO("mysql:host=".$this->host.";dbname=".$this->dbname.";charset=utf8", $this->user, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$this->initDb();
         //$this->fillTables();
     }
 
-    
+
     private function initDb()
     {
 
@@ -43,9 +45,9 @@ class Db
 
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
-        } 
+        }
 
-         
+
         $tableQuery = "CREATE TABLE IF NOT EXISTS  Client (
             ClientId INT PRIMARY KEY AUTO_INCREMENT,
             Nom VARCHAR(255) NOT NULL,
@@ -89,7 +91,7 @@ class Db
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        
+
         $tableQuery = "CREATE TABLE IF NOT EXISTS  Plat (
             PlatId INT PRIMARY KEY AUTO_INCREMENT,
             Nom VARCHAR(255) NOT NULL,
@@ -110,14 +112,15 @@ class Db
         if (!$this->connection->query($tableQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        
+
 
     }
 
-    public function fillTables(){
-        
+    public function fillTables()
+    {
 
-        $fillQuery="INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (10,'Rue du carré','Paris','95000', 'France');
+
+        $fillQuery = "INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (10,'Rue du carré','Paris','95000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (11,'Rue du triangle','Marseille','13000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (145,'Rue du rond','Lyon','69000', 'France');
         INSERT INTO adresse (Numero,Rue, Ville,CodePostal, Pays) VALUES (900,'Rue du losange','Bordeaux','33000', 'France');
@@ -130,7 +133,7 @@ class Db
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        $fillQuery="INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Le Petit Bistro', 'Paris', 1);
+        $fillQuery = "INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Le Petit Bistro', 'Paris', 1);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('La Brasserie', 'Marseille', 2);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Chez Jean', 'Lyon', 3);
         INSERT INTO restaurant (Nom, Ville, AdresseId) VALUES ('Le Jardin Gourmand', 'Bordeaux', 4);
@@ -144,7 +147,7 @@ class Db
             echo "Error creating table: " . $this->connection->errorInfo();
         }
 
-        $fillQuery="-- Création du plat Carbonara
+        $fillQuery = "-- Création du plat Carbonara
         INSERT INTO plat (Nom, Description, Prix)
         VALUES ('Francky Carbo Bien Mouillé', 'Pâtes, lardons, œufs, parmesan', 12.99);
 
@@ -182,7 +185,7 @@ class Db
         if (!$this->connection->query($fillQuery) != false) {
             echo "Error creating table: " . $this->connection->errorInfo();
         }
-        
+
     }
 
 
@@ -261,38 +264,42 @@ class Db
         return $result;
     }
 
-    public function SetProbleme($CommandeId){
-        $Message="Probleme de livraison";
+    public function SetProbleme($CommandeId)
+    {
+        $Message = "Probleme de livraison";
         $query = "INSERT INTO Probleme (Message) VALUES (:Message)";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Message" => $Message]);
-        $ProblemeId=$this->connection->lastInsertId();
+        $ProblemeId = $this->connection->lastInsertId();
         $query = "UPDATE Livraison SET ProblemeId = :ProblemeId WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["ProblemeId" => $ProblemeId, "CommandeId" => $CommandeId]);
+        return $Message;
     }
 
-    public function AddOrReturnLivraison($Adresse,$CommandeId)
+    public function AddOrReturnLivraison($Adresse, $CommandeId)
     {
-            $query = "INSERT INTO Livraison (AdresseId,CommandeId, Effectue) VALUES (:AdresseId,:CommandeId, 0)";
-            $stmt = $this->connection->prepare($query);
-            $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
-            $stmt->bindParam(':CommandeId', $CommandeId);
-            $stmt->execute();
+        $toreturn = array();
+        $query = "INSERT INTO Livraison (AdresseId,CommandeId, Effectue) VALUES (:AdresseId,:CommandeId, 0)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
+        $stmt->bindParam(':CommandeId', $CommandeId);
+        $stmt->execute();
 
-            if ($this->createProblem()){
-                $this->SetProbleme($CommandeId);
-            }
-    
-            $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
-            $stmt = $this->connection->prepare($query);
-            $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
-            $stmt->execute();
-            $result = $stmt->fetch();
-        return $result;
+        if ($this->createProblem()) {
+            $toreturn["Probleme"] = $this->SetProbleme($CommandeId);
+        }
+
+        $query = "SELECT * FROM Livraison WHERE AdresseId = :AdresseId AND Effectue = 0";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':AdresseId', $Adresse["AdresseId"]);
+        $stmt->execute();
+        $toreturn["livraison"] = $stmt->fetch();
+        return $toreturn;
     }
 
-    public function createProblem(){
+    public function createProblem()
+    {
         $randomNumber = rand(1, 10);
         if ($randomNumber == 1) {
             return true;
@@ -301,7 +308,8 @@ class Db
         }
     }
 
-    public function GetInfoFromPlatName($Nom){
+    public function GetInfoFromPlatName($Nom)
+    {
         $query = "SELECT * FROM plat WHERE Nom = :Nom";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':Nom', $Nom);
@@ -309,19 +317,21 @@ class Db
         return $stmt->fetch();
     }
 
-    public function GetInfoFromRestaurantName($Nom){
+    public function GetInfoFromRestaurantName($Nom)
+    {
         $query = "SELECT * FROM Restaurant WHERE Nom = :Nom";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Nom" => $Nom]);
         return $stmt->fetch();
     }
 
-    public function AddPlatsCommande($plats,$CommandeId){
-        $prix=0;
-        $Quantite=0;
+    public function AddPlatsCommande($plats, $CommandeId)
+    {
+        $prix = 0;
+        $Quantite = 0;
         foreach ($plats as $plat) {
             $platInfo = $this->GetInfoFromPlatName($plat);
-            $prix+=$platInfo["Prix"];
+            $prix += $platInfo["Prix"];
             $Quantite++;
         }
 
@@ -332,9 +342,10 @@ class Db
         return $prix;
     }
 
-    
 
-    public function AddCommande($plats,$restaurant,$commentaire,$Adresse,$client){
+
+    public function AddCommande($plats, $restaurant, $commentaire, $Adresse, $client)
+    {
         $Adresse = $this->AddOrReturnAdresse($Adresse);
         $Client = $this->AddOrReturnClient($client);
         $query = "INSERT INTO Commande (ClientId, RestaurantId, Date, Prix, Commentaire) VALUES (:ClientId, :RestaurantId, :Date, 0, :Commentaire)";
@@ -344,21 +355,25 @@ class Db
         $stmt->bindParam(':Date', date("Y-m-d H:i:s"));
         $stmt->bindParam(':Commentaire', $commentaire);
         $stmt->execute();
-        $commandeId=$this->connection->lastInsertId();
-        $prix=$this->AddPlatsCommande($plats,$this->connection->lastInsertId());
+        $commandeId = $this->connection->lastInsertId();
+        $prix = $this->AddPlatsCommande($plats, $this->connection->lastInsertId());
         $query = "UPDATE Commande SET Prix = :Prix WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["Prix" => $prix, "CommandeId" => $commandeId]);
-         $query = "SELECT * FROM commande WHERE CommandeId = :CommandeId ";
+        $query = "SELECT * FROM commande WHERE CommandeId = :CommandeId ";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["CommandeId" => $commandeId]);
-        $toreturn = $stmt->fetch();  
-        $this->AddOrReturnLivraison($Adresse,$commandeId);
+        $toreturn = $stmt->fetch();
+        $Message = $this->AddOrReturnLivraison($Adresse, $commandeId);
+        if (isset ($Message["Probleme"])) {
+            $toreturn["Probleme"] = $Message["Probleme"];
+        }
         return $toreturn;
     }
 
-    public function DeleteCommande($id){
-      
+    public function DeleteCommande($id)
+    {
+
         $query = "DELETE FROM LienCommandePlat WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(["CommandeId" => $id]);
@@ -367,27 +382,36 @@ class Db
         $stmt->execute(["CommandeId" => $id]);
         $query = "DELETE FROM Commande WHERE CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
-        $stmt->execute(["CommandeId" => $id]); 
+        $stmt->execute(["CommandeId" => $id]);
     }
 
-    public function UpdateCommande($id,$commentaire,$Adresse){
-        $Adresse=$this->AddOrReturnAdresse($Adresse); 
+    public function UpdateCommande($id, $commentaire, $Adresse)
+    {
+        $Adresse = $this->AddOrReturnAdresse($Adresse);
         $query = "UPDATE Commande
                   JOIN Livraison ON Commande.CommandeId = Livraison.CommandeId
                   JOIN Adresse ON Livraison.AdresseId = Adresse.AdresseId
                   SET Commande.Commentaire = :Commentaire, Livraison.AdresseId = :AdresseId
                   WHERE Commande.CommandeId = :CommandeId";
         $stmt = $this->connection->prepare($query);
-        return $stmt->execute(["Commentaire" => $commentaire,"AdresseId"=> $Adresse["AdresseId"] , "CommandeId" => $id]) ? "Success" : "Error";
+        $stmt->execute(["Commentaire" => $commentaire, "AdresseId" => $Adresse["AdresseId"], "CommandeId" => $id]);
+        $query = "SELECT * FROM Commande WHERE CommandeId = :CommandeId";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(["CommandeId" => $id]);
+        return $stmt->fetch();
     }
 
-    public function GetCommandes(){
+
+
+
+    public function GetCommandes()
+    {
         $query = "SELECT * FROM Commande";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    
+
 }
 
 ?>
